@@ -3,11 +3,12 @@
 import { isVectorInAABB, drawNormalCube } from "./helper";
 
 /**
- * Draws the frame of a box
+ * Gets all blocks the ray trace from a player touches up to the given distance
  * @param {Number} distance maximum ray trace distance
+ * @param {Boolean} ignoreAir Ignores any air blocks
  * @return {Set} A Set of Blocks encountered on the path
  */
-export function getAllBlocksInRayTraceFromPlayer(distance) {
+export function getAllBlocksInRayTraceFromPlayer(distance, ignoreAir) {
     let playerLookVector = Player.getPlayer().func_70040_Z();
 
     let xPlayer = Player.getLastX();
@@ -28,6 +29,10 @@ export function getAllBlocksInRayTraceFromPlayer(distance) {
 
     while (start < stop) {
         let thisBlock = World.getBlockAt(xPlayer + x * (add * start), yPlayer + y * (add * start), zPlayer + z * (add * start));
+        if (ignoreAir && thisBlock.type.getRegistryName() === "minecraft:air") {
+            start++;
+            continue;
+        }
         let thisBlockString = `${thisBlock.x}, ${thisBlock.y}, ${thisBlock.z}`;
         if (lastBlock !== thisBlockString) {
             lastBlock = thisBlockString;
@@ -42,7 +47,7 @@ export function getAllBlocksInRayTraceFromPlayer(distance) {
 /**
  * Raytrace from player to the first entity in the way
  * @param {Number} distance maximum ray trace distance
- * @return {partialTicks} partialTicks The first entity encountered on the path
+ * @param {partialTicks} partialTicks The first entity encountered on the path
  * @return {Entity} The first entity encountered on the path
  * @return {null} If no entity is encountered
  */
@@ -69,7 +74,7 @@ export function getEntityHit(distance, partialTicks) {
             return new Entity(entity);
         }
     }
-    return;
+    return null;
 }
 
 
@@ -82,8 +87,6 @@ export function getEntityHit(distance, partialTicks) {
  */
 export function getBlockHit(distance, partialTicks) {
     let raytrace = Player.getPlayer().func_174822_a(distance, partialTicks);
-    ChatLib.chat(`${raytrace.field_72308_g}`);
-    ChatLib.chat(raytrace.field_72313_a.toString());
     if (raytrace.field_72313_a.toString() === "BLOCK") {
         let blockpos = raytrace.func_178782_a();
         let block = World.getBlockAt(new BlockPos(blockpos));
