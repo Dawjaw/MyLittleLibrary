@@ -45,7 +45,7 @@ export function getAllBlocksInRayTraceFromPlayer(distance) {
  * @return {Entity} The first entity encountered on the path
  * @return {null} If no entity is encountered
  */
-export function getEntityHit() {
+export function getEntityHit(distance) {
     const entities = [];
     World.getAllEntities().forEach((entity) => {entities.push(entity)});
     entities.sort((a, b) => a.distanceTo(Player.getPlayer()) - b.distanceTo(Player.getPlayer()));
@@ -55,7 +55,7 @@ export function getEntityHit() {
         let dir = entityPositionEyes.func_178788_d(Player.getPlayer().func_174824_e(Tessellator.partialTicks)).func_72432_b();
         let dot = dir.func_72430_b(Player.getPlayer().func_70040_Z());
         if (dot <= 0.98) continue;
-        let raytrace = Player.getPlayer().func_174822_a(200, 1.0);
+        let raytrace = Player.getPlayer().func_174822_a(distance, 1.0);
         if (raytrace.field_72313_a.toString() === "BLOCK") {
             let blockpos = raytrace.func_178782_a();
             if (Player.asPlayerMP().distanceTo(new BlockPos(blockpos)) < Player.asPlayerMP().distanceTo(e)) {
@@ -64,7 +64,7 @@ export function getEntityHit() {
         }
         let aabbe = entity?.func_174813_aQ()?.func_72314_b(entity.func_70111_Y(), entity.func_70111_Y(), entity.func_70111_Y());
         
-        if(isVectorInAABB(Player.getPlayer().func_70040_Z(), aabbe, Player, 100)) {
+        if(isVectorInAABB(Player.getPlayer().func_70040_Z(), aabbe, Player, distance)) {
             return new Entity(entity);
         }
     }
