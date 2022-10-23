@@ -65,7 +65,7 @@ export function getEntityHit() {
         let aabbe = entity?.func_174813_aQ()?.func_72314_b(entity.func_70111_Y(), entity.func_70111_Y(), entity.func_70111_Y());
         
         if(isVectorInAABB(Player.getPlayer().func_70040_Z(), aabbe, Player, 100)) {
-            return [entity, [entity.field_70142_S, entity.field_70137_T, entity.field_70136_U], Player.getPlayer().func_70040_Z()];
+            return new Entity(entity);
         }
     }
     return;
