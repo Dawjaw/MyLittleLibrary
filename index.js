@@ -42,17 +42,18 @@ export function getAllBlocksInRayTraceFromPlayer(distance) {
 /**
  * Raytrace from player to the first entity in the way
  * @param {Number} distance maximum ray trace distance
+ * @return {partialTicks} partialTicks The first entity encountered on the path
  * @return {Entity} The first entity encountered on the path
  * @return {null} If no entity is encountered
  */
-export function getEntityHit(distance) {
+export function getEntityHit(distance, partialTicks) {
     const entities = [];
     World.getAllEntities().forEach((entity) => {entities.push(entity)});
     entities.sort((a, b) => a.distanceTo(Player.getPlayer()) - b.distanceTo(Player.getPlayer()));
     for (const e of entities) {
         let entity = e.entity;
-        let entityPositionEyes = entity.func_174824_e(Tessellator.partialTicks);
-        let dir = entityPositionEyes.func_178788_d(Player.getPlayer().func_174824_e(Tessellator.partialTicks)).func_72432_b();
+        let entityPositionEyes = entity.func_174824_e(partialTicks);
+        let dir = entityPositionEyes.func_178788_d(Player.getPlayer().func_174824_e(partialTicks)).func_72432_b();
         let dot = dir.func_72430_b(Player.getPlayer().func_70040_Z());
         if (dot <= 0.98) continue;
         let raytrace = Player.getPlayer().func_174822_a(distance, 1.0);
