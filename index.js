@@ -104,6 +104,7 @@ export function getBlockHit(distance, partialTicks) {
  * @param {Boolean} depthTest Whether to use depth testing
  */
  export function drawMultipleBlocksInWorld(positions, r, g, b, a, depthTest) {
+    if (positions.length === 0) return;
     let displayList = GL11.glGenLists(1);
     GL11.glNewList(displayList, 4864);
 
@@ -120,8 +121,8 @@ export function getBlockHit(distance, partialTicks) {
     const renderY = -(Player.getRenderY());
     const renderZ = -(Player.getRenderZ());
 
-    drawNormalCube(0, 0, 0, r, g, b, a);
-    for (let i = 0; i < positions.length; i++) {
+    drawNormalCube(renderX + positions[0][0], renderY + positions[0][1], renderZ + positions[0][2], r, g, b, 0);
+    for (let i = 1; i < positions.length; i++) {
         let coords = positions[i];
         GL11.glPushMatrix();
         GL11.glTranslatef(renderX + coords[0], renderY + coords[1], renderZ + coords[2]);

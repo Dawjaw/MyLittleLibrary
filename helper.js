@@ -45,7 +45,7 @@ export function isVectorInAABB(playerLookVector, aabb, player, distance) {
  * @param {Number} a alpha
  */
 export function drawNormalCube(x, y, z, r, g, b, a) {
-    GL11.glTranslatef(x-0.5, y+0.5, z+0.5);
+    GL11.glTranslatef(x, y, z);
     GL11.glBegin(GL11.GL_QUADS);
     GL11.glColor4f(r, g, b, a);
     GL11.glVertex3f(0.5, 0.5, -0.5);
