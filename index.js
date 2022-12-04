@@ -8,37 +8,33 @@ import { isVectorInAABB, drawNormalCube } from "./helper";
  * @param {Boolean} ignoreAir Ignores any air blocks
  * @return {Set} A Set of Blocks encountered on the path
  */
-export function getAllBlocksInRayTraceFromPlayer(distance, ignoreAir) {
+ export function getAllBlocksInRayTraceFromPlayer(distance, ignoreAir) {
     let playerLookVector = Player.getPlayer().func_70040_Z();
 
     let xPlayer = Player.getLastX();
     let yPlayer = Player.getLastY() + Player.getPlayer().func_70047_e();
     let zPlayer = Player.getLastZ();
 
-    let x = playerLookVector.field_72450_a;
-    let y = playerLookVector.field_72448_b;
-    let z = playerLookVector.field_72449_c;
-
-    let start = 1;
     let add = 0.1
     let stop = (distance / add);
-
+    
     let blockSet = new Set();
-
+    
     let lastBlock = null;
-
-    while (start < stop) {
-        let thisBlock = World.getBlockAt(xPlayer + x * (add * start), yPlayer + y * (add * start), zPlayer + z * (add * start));
-        if (ignoreAir && thisBlock.type.getRegistryName() === "minecraft:air") {
-            start++;
-            continue;
-        }
-        let thisBlockString = `${thisBlock.x}, ${thisBlock.y}, ${thisBlock.z}`;
-        if (lastBlock !== thisBlockString) {
-            lastBlock = thisBlockString;
+    
+    for (let start = 1; start < stop; start++) {
+        let thisBlock = World.getBlockAt(
+            xPlayer + playerLookVector.field_72450_a * (add * start),
+            yPlayer + playerLookVector.field_72448_b * (add * start),
+            zPlayer + playerLookVector.field_72449_c * (add * start)
+        );
+        if (!ignoreAir || thisBlock.type.getRegistryName() !== "minecraft:air") {
+            if (lastBlock === thisBlock) {
+              continue;
+            }
+            lastBlock = thisBlock;
             blockSet.add(thisBlock);
         }
-        start++;
     }
     return blockSet;
 }
