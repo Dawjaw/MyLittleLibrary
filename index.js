@@ -48,19 +48,21 @@ export function getAllBlocksInRayTraceFromPlayer(distance, ignoreAir) {
  * @return {null} If no entity is encountered
  */
 export function getEntityHit(distance, partialTicks) {
-    const entities = [];
-    World.getAllEntities().forEach((entity) => {entities.push(entity)});
-    entities.sort((a, b) => a.distanceTo(Player.getPlayer()) - b.distanceTo(Player.getPlayer()));
+    const playerPos = Player.getPlayer().func_174824_e(partialTicks);
+    const playerMP = Player.asPlayerMP();
+    const entities = World.getAllEntities().filter((entity) => {
+        return entity.distanceTo(Player.getPlayer()) <= distance;
+    });
     for (const e of entities) {
         let entity = e.entity;
         let entityPositionEyes = entity.func_174824_e(partialTicks);
-        let dir = entityPositionEyes.func_178788_d(Player.getPlayer().func_174824_e(partialTicks)).func_72432_b();
+        let dir = entityPositionEyes.func_178788_d(playerPos).func_72432_b();
         let dot = dir.func_72430_b(Player.getPlayer().func_70040_Z());
         if (dot <= 0.98) continue;
         let raytrace = Player.getPlayer().func_174822_a(distance, 1.0);
         if (raytrace.field_72313_a.toString() === "BLOCK") {
             let blockpos = raytrace.func_178782_a();
-            if (Player.asPlayerMP().distanceTo(new BlockPos(blockpos)) < Player.asPlayerMP().distanceTo(e)) {
+            if (playerMP.distanceTo(new BlockPos(blockpos)) < playerMP().distanceTo(e)) {
                 continue;
             }
         }
