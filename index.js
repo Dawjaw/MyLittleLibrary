@@ -103,10 +103,10 @@ export function getBlockHit(distance, partialTicks) {
  * @param {Number} a The alpha value of the box
  * @param {Boolean} depthTest Whether to use depth testing
  */
-export function drawMultipleBlocksInWorld(positions, r, g, b, a, depthTest) {
+ export function drawMultipleBlocksInWorld(positions, r, g, b, a, depthTest) {
     let displayList = GL11.glGenLists(1);
     GL11.glNewList(displayList, 4864);
-    
+
     GL11.glDisable(GL11.GL_CULL_FACE);
     GL11.glEnable(GL11.GL_BLEND);
     GL11.glBlendFunc(770, 771);
@@ -116,15 +116,17 @@ export function drawMultipleBlocksInWorld(positions, r, g, b, a, depthTest) {
 
     GL11.glPushAttrib(GL11.GL_CURRENT_BIT); // save current color
 
-    renderX = -(Player.getRenderX());
-    renderY = -(Player.getRenderY());
-    renderZ = -(Player.getRenderZ());
+    const renderX = -(Player.getRenderX());
+    const renderY = -(Player.getRenderY());
+    const renderZ = -(Player.getRenderZ());
 
-    positions.forEach((coords) => {
+    drawNormalCube(0, 0, 0, r, g, b, a);
+    for (let i = 0; i < positions.length; i++) {
+        let coords = positions[i];
         GL11.glPushMatrix();
-        drawNormalCube(renderX + coords[0], renderY + coords[1], renderZ + coords[2], r, g, b, a);
+        GL11.glTranslatef(renderX + coords[0], renderY + coords[1], renderZ + coords[2]);
         GL11.glPopMatrix();
-    });
+    }
 
     GL11.glPopAttrib() // restore previous color
 
