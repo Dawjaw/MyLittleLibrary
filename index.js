@@ -29,7 +29,7 @@ export function getAllBlocksInRayTraceFromPlayer(distance, ignoreAir) {
             zPlayer + playerLookVector.field_72449_c * (add * start)
         );
         if (!ignoreAir || thisBlock.type.getRegistryName() !== "minecraft:air") {
-            if (lastBlock?.toString() === thisBlock?.toString()) {
+            if (lastBlock && lastBlock.x === thisBlock.x && lastBlock.y === thisBlock.y && lastBlock.z === thisBlock.z) {
                 continue;
             }
             lastBlock = thisBlock;
