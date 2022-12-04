@@ -8,7 +8,7 @@ import { isVectorInAABB, drawNormalCube } from "./helper";
  * @param {Boolean} ignoreAir Ignores any air blocks
  * @return {Set} A Set of Blocks encountered on the path
  */
- export function getAllBlocksInRayTraceFromPlayer(distance, ignoreAir) {
+export function getAllBlocksInRayTraceFromPlayer(distance, ignoreAir) {
     let playerLookVector = Player.getPlayer().func_70040_Z();
 
     let xPlayer = Player.getLastX();
@@ -29,8 +29,8 @@ import { isVectorInAABB, drawNormalCube } from "./helper";
             zPlayer + playerLookVector.field_72449_c * (add * start)
         );
         if (!ignoreAir || thisBlock.type.getRegistryName() !== "minecraft:air") {
-            if (lastBlock === thisBlock) {
-              continue;
+            if (lastBlock?.toString() === thisBlock?.toString()) {
+                continue;
             }
             lastBlock = thisBlock;
             blockSet.add(thisBlock);
