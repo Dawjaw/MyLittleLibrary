@@ -4,6 +4,7 @@ Just a bunch of custom functions for chattriggers
 
 Try it out:
 
+```javascript
 import { getAllBlocksInRayTraceFromPlayer, drawMultipleBlocksInWorld, getEntityHit, getBlockHit } from '../MyLittleLibrary/index'
 
 let myBlocks = new Set();
@@ -29,3 +30,4 @@ register('renderWorld', () => {
         drawMultipleBlocksInWorld(blockLocations, 1, 0, 0, 1, true);
     }
 })
+```
