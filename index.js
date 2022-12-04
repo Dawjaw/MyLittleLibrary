@@ -11,9 +11,11 @@ import { isVectorInAABB, drawNormalCube } from "./helper";
 export function getAllBlocksInRayTraceFromPlayer(distance, ignoreAir) {
     let playerLookVector = Player.getPlayer().func_70040_Z();
 
-    let xPlayer = Player.getLastX();
-    let yPlayer = Player.getLastY() + Player.getPlayer().func_70047_e();
-    let zPlayer = Player.getLastZ();
+    let rayOrigin = new Entity(Player.getPlayer()).getEyePosition(Tessellator.partialTicks);
+
+    let xPlayer = rayOrigin.field_72450_a;
+    let yPlayer = rayOrigin.field_72448_b;
+    let zPlayer = rayOrigin.field_72449_c;
 
     let add = 0.1
     let stop = (distance / add);
